@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "discord.js": "^12.4.0",
     "enmap": "^5.8.0",
+    "express": "^4.17.1",
     "godembed": "^1.0.4",
     "humanize-duration": "^3.23.1",
     "leekslazylogger": "^2.0.3",
