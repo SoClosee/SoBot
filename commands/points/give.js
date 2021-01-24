@@ -16,7 +16,7 @@ module.exports = {
 
   // Ensure there is a points entry for this user.
   client.points.ensure(key, {
-    user: message.author.id,
+    user: user.id,
     guild: message.guild.id,
     points: 0,
     level: 1,
