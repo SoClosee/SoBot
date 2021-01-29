@@ -125,7 +125,7 @@ module.exports = client => {
                 let ids = Object.keys(client.moderation.get(guild.id, 'tempMutedUsers'))
                 if (!ids.length) return;
                 for (let id of ids) {
-                    console.log("reach loop")
+                   
 
                     const timeAtTheBan = parseInt(client.moderation.get(guild.id, `tempMutedUsers.${id}.muteTime`).toString().slice(0, -3))
 
@@ -176,7 +176,7 @@ module.exports = client => {
 
     }, 300000);
 
-    client.user.setActivity('🏆 SoClose 🏆', {
+    client.user.setActivity(client.setup.get(status), {
         type: 'WATCHING'
     });
 
