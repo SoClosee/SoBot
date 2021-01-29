@@ -59,10 +59,6 @@ module.exports = async (client, message) => {
         guild: message.guild.id,
         prefix: '!'
     }) 
-   else if (client.setup.has(message.guild.id, 'prefix')) client.setup.set(message.guild.id, {
-        guild: message.guild.id,
-        prefix: '!'
-    }) 
     const prefix = await client.setup.get(message.guild.id, 'prefix') 
     if (!message.content.startsWith(prefix)) return;
     if(client.setup.has(message.guild.id, 'authorizedChannels')) {

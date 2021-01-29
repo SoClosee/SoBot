@@ -7,17 +7,22 @@ const {
 } = require('discord.js');
 
 
-const config = require('./config.json');
-const http = require("http")
+
 const Enmap = require('enmap')
-const express = require('express')
-const Twitter = require('twit')
+
 const client = new Client({
     ws: {
         intents: Intents.ALL
     },
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
+
+const { Player } = require('discord-player');
+const config = require('./config.json');
+client.player = new Player(client);
+client.config = require('./config/bot');
+client.emotes = client.config.emojis;
+client.filters = client.config.filters;
 client.config = config
 client.commands = new Collection();
 Object.assign(client, Enmap.multi(["setup", "moderation","vip","points"]));
@@ -136,7 +141,12 @@ fs.readdir("./events/", (err, files) => {
         client.on(eventName, event.bind(null, client));
     });
 });
-
+const player = fs.readdirSync('./player').filter(file => file.endsWith('.js'));
+for (const file of player) {
+    console.log(`Loading discord-player event ${file}`);
+    const event = require(`./player/${file}`);
+    client.player.on(file.split(".")[0], event.bind(null, client));
+};
 
 
 
@@ -162,4 +172,4 @@ process.on('unhandledRejection', error => {
     console.log(error.stack);
 });
 
-client.login(config.token);
+client.login(require('./config.json').token);
