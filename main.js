@@ -24,6 +24,9 @@ client.config = require('./config/bot');
 client.emotes = client.config.emojis;
 client.filters = client.config.filters;
 client.config = config
+client.config.discord = {};
+client.config.discord.prefix = require('./config/bot.js').discord.prefix
+
 client.commands = new Collection();
 Object.assign(client, Enmap.multi(["setup", "moderation","vip","points"]));
 

@@ -27,6 +27,7 @@
     "spotify-url-info": "^2.2.0",
     "timestring": "^6.0.0",
     "twit": "^2.2.11",
-    "youtube-sr": "^3.0.3"
+    "youtube-sr": "^3.0.3",
+    "ytdl-core-discord": "^1.2.5"
   }
 }

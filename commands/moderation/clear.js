@@ -11,15 +11,15 @@ module.exports = {
                 
                let limit = parseInt(numberOfMessages)
             await   message.channel.messages.fetch({limit: limit}).then((async messages=>{
-                  await messages.map((totalMessage) => {
+                  await messages.map(async (totalMessage) => {
                       toIncrement =  toIncrement++
-                    totalMessage.delete({timeout: 2300}) 
+                    await totalMessage.delete({timeout: 2300}) 
                    })
                  
                
                }
                 ))
-message.channel.send('Successfully deleted ' + toIncrement + ' messages.')
+await message.channel.send('Successfully deleted ' + toIncrement + ' messages.')
             }catch{
                return message.channel.send(embed.setTitle("There was a problem, please check that the number you gave doesn't exceed 50.").setColor('ff0000'))
             }
