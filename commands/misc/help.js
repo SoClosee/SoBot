@@ -34,48 +34,61 @@ module.exports = {
              
       let embeds = [musicEmbed,miscEmbed,moderationEmbed]
 
-       message.channel.send(embeds[0]).then( async message => {
+       message.channel.send(embeds[0]).then( async msg => {
            
           
          
-           await message.react('➡️') 
-           await message.react('▶️')
-           const collector = message.createReactionCollector(
-               
-               (reaction, user) => ['⬅️', '➡️', '▶️', '◀️'].includes(reaction.emoji.name) && user.id === message.author.id,
-             
-               { time: 60000 }
-           )
+           await msg.react('➡️') 
+           await msg.react('▶️')
+         
+           
+           const filterr = (reaction, user) => user.id === message.author.id
+           let collector = await msg.createReactionCollector(filterr, {
+            max: 15,
+            time: 60000,
+            errors: ['time']
+        });
 
            let currentIndex = 0
+           let check = null;
            collector.on('collect', async (reaction) => {
-        
-               message.reactions.removeAll().then(async () => {
-                 
-                   if (reaction.emoji.name === '⬅️') {
-                       currentIndex -= 1
-                       message.edit(embeds[currentIndex])
-                   } else if (reaction.emoji.name === '➡️') {
-                        currentIndex += 1
-                        message.edit(embeds[currentIndex])
-                       } else if (reaction.emoji.name === '▶️') {
-                       currentIndex = 2
-                       message.edit(embeds[currentIndex])
-                       } else if (reaction.emoji.name === '◀️')
-                       currentIndex = 0
-                       message.edit(embeds[currentIndex])
+        console.log('1')
+               msg.reactions.removeAll().then(async () => {
+                console.log('2')
+                if(check){
+                    check = null
+                    if (reaction.emoji.name === '⬅️') {
+                        currentIndex -= 1
+                        msg.edit(embeds[currentIndex])
+                    } else if (reaction.emoji.name === '➡️') {
+                     console.log('3')
+                         currentIndex += 1
+                         msg.edit(embeds[currentIndex])
+                        } else if (reaction.emoji.name === '▶️') {
+                        currentIndex = 2
+                        msg.edit(embeds[currentIndex])
+                        } else if (reaction.emoji.name === '◀️'){
+                         currentIndex = 0
+                         msg.edit(embeds[currentIndex])
+                        }
+                       
+
+
+                }
+                  
                
 
                    if (currentIndex !== 0){
-                   await message.react('◀️') 
-                   await message.react('⬅️')
-                   
+                   await msg.react('◀️') 
+                   await msg.react('⬅️')
+                   check = true
                    
                    } 
                 
                    if (currentIndex + 1 < 2){
-                   await message.react('➡️') 
-                       await message.react('▶️')
+                   await msg.react('➡️') 
+                       await msg.react('▶️')
+                       check = true
                    } 
                })
            })
