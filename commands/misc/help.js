@@ -41,7 +41,7 @@ module.exports = {
            message.react('➡️') && message.react('▶️')
            const collector = message.createReactionCollector(
                
-               (reaction, user) => ['⬅️', '➡️', '▶️', '◀️'].includes(reaction.emoji.name) && user.id === author.id,
+               (reaction, user) => ['⬅️', '➡️', '▶️', '◀️'].includes(reaction.emoji.name) && user.id === message.author.id,
              
                { time: 60000 }
            )
