@@ -34,11 +34,12 @@ module.exports = {
              
       let embeds = [musicEmbed,miscEmbed,moderationEmbed]
 
-       message.channel.send(embeds[0]).then(message => {
+       message.channel.send(embeds[0]).then( async message => {
            
           
          
-           message.react('➡️') && message.react('▶️')
+           await message.react('➡️') 
+           await message.react('▶️')
            const collector = message.createReactionCollector(
                
                (reaction, user) => ['⬅️', '➡️', '▶️', '◀️'].includes(reaction.emoji.name) && user.id === message.author.id,
@@ -47,7 +48,7 @@ module.exports = {
            )
 
            let currentIndex = 0
-           collector.on('collect', reaction => {
+           collector.on('collect', async (reaction) => {
         
                message.reactions.removeAll().then(async () => {
                  
@@ -65,9 +66,17 @@ module.exports = {
                        message.edit(embeds[currentIndex])
                
 
-                   if (currentIndex !== 0) await message.react('◀️') && message.react('⬅️')
+                   if (currentIndex !== 0){
+                   await message.react('◀️') 
+                   await message.react('⬅️')
+                   
+                   
+                   } 
                 
-                   if (currentIndex + 1 < 2) await message.react('➡️') && message.react('▶️')
+                   if (currentIndex + 1 < 2){
+                   await message.react('➡️') 
+                       await message.react('▶️')
+                   } 
                })
            })
        })
