@@ -44,30 +44,33 @@ module.exports = {
            
            const filterr = (reaction, user) => user.id === message.author.id
            let collector = await msg.createReactionCollector(filterr, {
-            max: 15,
-            time: 60000,
+            
+            time: 90000,
             errors: ['time']
         });
 
            let currentIndex = 0
-           let check = null;
+           let check = true;
            collector.on('collect', async (reaction) => {
-        console.log('1')
+  
                msg.reactions.removeAll().then(async () => {
-                console.log('2')
+           
                 if(check){
                     check = null
                     if (reaction.emoji.name === '⬅️') {
+                  
                         currentIndex -= 1
                         msg.edit(embeds[currentIndex])
                     } else if (reaction.emoji.name === '➡️') {
-                     console.log('3')
+                  
                          currentIndex += 1
                          msg.edit(embeds[currentIndex])
                         } else if (reaction.emoji.name === '▶️') {
                         currentIndex = 2
+               
                         msg.edit(embeds[currentIndex])
                         } else if (reaction.emoji.name === '◀️'){
+                        
                          currentIndex = 0
                          msg.edit(embeds[currentIndex])
                         }
@@ -79,17 +82,20 @@ module.exports = {
                
 
                    if (currentIndex !== 0){
+                  
                    await msg.react('◀️') 
                    await msg.react('⬅️')
-                   check = true
+           
                    
                    } 
-                
-                   if (currentIndex + 1 < 2){
+              
+                   if (currentIndex + 1 <= 2){
+                 
                    await msg.react('➡️') 
                        await msg.react('▶️')
-                       check = true
+                       
                    } 
+                   check = true
                })
            })
        })
