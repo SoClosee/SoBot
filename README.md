@@ -23,7 +23,7 @@ $ git clone https://github.com/soclosee/sobot.git
 
 * Aller dans le dossier:
 ```
-$ cd devbot
+$ cd sobot
 ```
 
 * Installer les requirements: 
