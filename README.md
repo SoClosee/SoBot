@@ -56,8 +56,6 @@ Découvre aussi tous nos réseaux sociaux sur lesquels nous sommes très actifs.
 [youtube]: https://youtube.com/
 [instagram]: https://instagram.com/socloseagency
 [linkedin]: https://www.linkedin.com/company/soclosedigital
-[introduction]: 
-[installation]: 
 [Obtenir de l'aide]: 
 [Discord]: https://discord.gg/nmFv2U3yHK
 [Telegram]: https://t.me/soclosetv
