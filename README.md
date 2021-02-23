@@ -1,25 +1,43 @@
-# Bot Discord 
+# DevBot Discord V12:
+Bot Discord.js V12 DevBot.
 
 ## Table des matières:
 * [Introduction]
 * [Installation]
-* [Commencer]
 * [Obtenir de l'aide]
 
 ## Introduction:
+Bot Discord en Python. Permet d'intéragir avec les utilisateurs d'un serveur.
 #### Prérequis:
-* 
-* 
-* 
+* Python doit être installé sur votre système
+* Node doit être installé sur votre système 
 #### Fonctionnalités:
-* 
-*
-
-
-#### Exigences:
-
+* intéragir avec les commandes de devbot en  utilisant le préfix '!'.
+* Découvrez l'intégralité des commandes via '!help'.
 
 ## Installation:
+* Cloner le repositorie: 
+```
+$ git clone https://github.com/soclosee/sobot.git
+``` 
+
+* Aller dans le dossier:
+```
+$ cd devbot
+```
+
+* Installer les requirements: 
+```
+$ npm install
+$ pip install discord.js
+``` 
+
+* Run: 
+```
+$ node main.js
+``` 
+
+* !help pour découvrir toutes les commandes.
 
 
 ## Obtenir de l'aide:
@@ -38,10 +56,9 @@ Découvre aussi tous nos réseaux sociaux sur lesquels nous sommes très actifs.
 [youtube]: https://youtube.com/
 [instagram]: https://instagram.com/socloseagency
 [linkedin]: https://www.linkedin.com/company/soclosedigital
-[introduction]: https://github.com/SoClosee/Telegram_ScrappingAdding_toGroup#introduction
-[installation]: https://github.com/SoClosee/Telegram_ScrappingAdding_toGroup#installation
-[Commencer]: https://github.com/SoClosee/Telegram_ScrappingAdding_toGroup#commencer
-[Obtenir de l'aide]: https://github.com/SoClosee/Telegram_ScrappingAdding_toGroup#obtenir-de-laide 
+[introduction]: 
+[installation]: 
+[Obtenir de l'aide]: 
 [Discord]: https://discord.gg/nmFv2U3yHK
 [Telegram]: https://t.me/soclosetv
 [SoClose Digital Consulting Team]: https://soclose.co
