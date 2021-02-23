@@ -41,7 +41,7 @@ $ node main.js
 
 
 ## Obtenir de l'aide:
-Pour plus d'information n'hesite pas à nous rejoindre sur [Discord] ou sur [Telegram]!  
+Pour plus d'information n'hesite pas à nous rejoindre sur nos réseaux sociaux!  
 Découvre aussi tous nos réseaux sociaux sur lesquels nous sommes très actifs. 
 <br>
 [SoClose Digital Consulting Team]
@@ -56,7 +56,6 @@ Découvre aussi tous nos réseaux sociaux sur lesquels nous sommes très actifs.
 [youtube]: https://youtube.com/
 [instagram]: https://instagram.com/socloseagency
 [linkedin]: https://www.linkedin.com/company/soclosedigital
-[Obtenir de l'aide]: 
 [Discord]: https://discord.gg/nmFv2U3yHK
 [Telegram]: https://t.me/soclosetv
 [SoClose Digital Consulting Team]: https://soclose.co
