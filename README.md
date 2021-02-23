@@ -1,4 +1,4 @@
-# DevBot Discord V12:
+# SoBot Discord V12:
 Bot Discord.js V12 DevBot.
 
 ## Table des matières:
