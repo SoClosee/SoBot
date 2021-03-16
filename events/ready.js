@@ -176,7 +176,7 @@ module.exports = client => {
 
     }, 300000);
 
-    client.user.setActivity(client.setup.get(status), {
+    client.user.setActivity(client.setup.get('status'), {
         type: 'WATCHING'
     });
 
