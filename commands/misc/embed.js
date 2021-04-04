@@ -11,6 +11,7 @@ module.exports = {
         
         const { embed, errors } = embedbuilder(args.join(' '))
         message.channel.send({embed})
+        message.delete()
         if( errors.length > 0 ){
             message.channel.send('Please double check the syntax, see the documentation for more help: https://github.com/CamilleAbella/GodEmbed/blob/master/Module/docs.md\nList of error(s): ' + errors.join('\n') )
         }
