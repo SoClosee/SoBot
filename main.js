@@ -5,43 +5,48 @@ const {
     Collection,
     Intents
 } = require('discord.js');
-
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 
 
 const Enmap = require('enmap')
 
 const client = new Client({
-    ws: {
-        intents: Intents.ALL
-    },
+    
+    intents: ['GUILD_MESSAGES', 'GUILD_INTEGRATIONS', 'GUILDS', 'GUILD_MEMBERS','GUILD_VOICE_STATES'],
+    
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
-
+const oauth = require('./oauthData.js');
+console.log(oauth)
+client.oauth = oauth
+console.log(client.oauth)
 const { Player } = require('discord-player');
 const config = require('./config.json');
 client.player = new Player(client);
 client.config = require('./config/bot');
 client.emotes = client.config.emojis;
 client.filters = client.config.filters;
-client.config = config
-client.commands = new Collection();
-Object.assign(client, Enmap.multi(["setup", "moderation","vip","points"]));
+client.config = config;
+
+    client.commands = new Collection();
+Object.assign(client, Enmap.multi(["setup", "moderation", "vip", "points"]));
 
 client.embedMention = new MessageEmbed()
     .setTitle("❌ **Mention a member or specify an ID.**")
-    .setColor('ff0000')
+    .setColor('ff0000');
 client.embedReason = new MessageEmbed()
     .setTitle("❌ **Please specify a reason for this actions**")
-    .setColor('ff0000')
+    .setColor('ff0000');
 client.embedNoConfig = new MessageEmbed()
     .setTitle("❌ **This server never ran a setup before.**")
-    .setColor('ff0000')
+    .setColor('ff0000');
 client.embedPerm = new MessageEmbed()
     .setTitle("❌ **You do not possess the permisions to do that.**")
-    .setColor('ff0000')
+    .setColor('ff0000');
 client.embedNoRole = new MessageEmbed()
     .setTitle('❌ Wrong role name/id provided')
-    .setColor('ff0000')
+    .setColor('ff0000');
 
 //!client.moderation.has(guildID, `punishments.${userID}.numberOfPunishment`)) {
 
@@ -128,6 +133,45 @@ client.getOnePunishment = async function (guildID, userID, array, sanctionID) {
 //              EVENT           //
 //                              // 
 
+
+
+
+
+
+
+
+let slashCommands = []
+client.slashCommands = new Collection();
+const slashCommandFiles = fs.readdirSync('./slash').filter(file => file.endsWith('.js'));
+
+for (const file of slashCommandFiles) {
+	const command = require(`./slash/${file}`);
+    slashCommands.push(command.data.toJSON())
+	client.slashCommands.set(command.data.name,command);
+}
+
+const rest = new REST({ version: '9' }).setToken(config.token);
+(async () => {
+	try {
+		console.log('Started refreshing application (/) commands.');
+
+		await rest.put(
+			Routes.applicationGuildCommands('738433057161478166','821132966377291807'),
+			{ body: slashCommands },
+		);
+
+		console.log('Successfully reloaded application (/) commands.');
+	} catch (error) {
+		console.error(error);
+	}
+})();
+
+
+
+
+
+
+
 fs.readdir("./events/", (err, files) => {
     if (err) return console.error(err);
     files.forEach(async file => {
@@ -172,4 +216,4 @@ process.on('unhandledRejection', error => {
     console.log(error.stack);
 });
 
-client.login(require('./config.json').token);
+client.login(config.token);

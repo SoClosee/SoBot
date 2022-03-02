@@ -11,14 +11,14 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, client) {
   // Limited to guild owner - adjust to your own preference!
-  if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply("You don't have enough permissions (ADMINISTRATOR)!");
+  if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply({content:"You don't have enough permissions (ADMINISTRATOR)!"});
 
   const user = message.mentions.users.first() || client.users.cache.get(args[0]);
-  if(!user) return message.reply("You need to mention someone, or to give their ID.");
+  if(!user) return message.reply({content:"You need to mention someone, or to give their ID."});
 
   const pointsToSet = parseInt(args[1], 10);
-  if(!pointsToSet) return message.reply("You didn't give me an xp amount to add.");
-  if(pointsToSet < 0) return message.reply('You can\'t set a negative amount of xp.')
+  if(!pointsToSet) return message.reply({content:"You didn't give me an xp amount to add."});
+  if(pointsToSet < 0) return message.reply({content:'You can\'t set a negative amount of xp.'})
   
   const key = `${message.guild.id}-${user.id}`;
 
@@ -37,7 +37,7 @@ module.exports = {
   client.points.set(key, {...data, points: pointsToSet, level: curLevel})
  
 
-  message.channel.send(`The xp of  ${user.tag} has been set to ${client.points.get(key, "points")} points.`);
+  message.channel.send({content:`The xp of  ${user.tag} has been set to ${client.points.get(key, "points")} points.`});
 
         }
     }

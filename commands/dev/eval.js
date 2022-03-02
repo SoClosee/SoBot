@@ -22,21 +22,20 @@ module.exports = {
             if(evaled.length >= 2048){
                 evaled = await evaled.substr(1,2045).replace(/ /g,"");
                 
-                return   await message.channel.send(embed
-                    .setAuthor('Eval')
+                return   await message.channel.send({embeds: [embed
+                    .setAuthor({name:'Eval'})
                     .addField('Input',`\`\`\`js\n${code}\`\`\``)
-                    .setDescription(`**Output**\n\`\`\`js\n${clean(evaled)}...\n\`\`\``))
-                    
+                    .setDescription(`**Output**\n\`\`\`js\n${clean(evaled)}...\n\`\`\``)]})                    
                 
             }
             
-            await message.channel.send(embed
-                .setAuthor('Eval')
+            await message.channel.send({embeds: [embed
+                .setAuthor({name:'Eval'})
                 .addField('Input',`\`\`\`js\n${code}\`\`\``)
-                .setDescription(`**Output**\n\`\`\`js\n${clean(evaled)}\n\`\`\``))
+                .setDescription(`**Output**\n\`\`\`js\n${clean(evaled)}\n\`\`\``)]})
            
         } catch (err) {
-            message.channel.send(embed.setAuthor('Eval ERROR').addField('Input',`\`\`\`js\n${code}\`\`\``).setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``)).setColor('#ff0000');
+            message.channel.send({embeds: [embed.setAuthor({name:'Eval ERROR'}).addField('Input',`\`\`\`js\n${code}\`\`\``).setDescription(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``).setColor('#ff0000')]});
         }
 
     }

@@ -1,32 +1,11 @@
 {
-  "name": "soclose",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.4.0",
-    "axios": "^0.21.1",
-    "discord-player": "^3.2.1",
-    "discord-ytdl-core": "^5.0.0",
-    "discord.js": "^12.4.0",
-    "enmap": "^5.8.0",
-    "express": "^4.17.1",
-    "ffmpeg-static": "^4.2.7",
-    "godembed": "^1.0.4",
-    "humanize-duration": "^3.23.1",
-    "leekslazylogger": "^2.0.3",
-    "moment": "^2.29.1",
-    "parse-duration": "^0.4.4",
-    "soundcloud-scraper": "^4.0.3",
-    "spotify-url-info": "^2.2.0",
-    "timestring": "^6.0.0",
-    "twit": "^2.2.11",
-    "youtube-sr": "^3.0.3"
+    "@discordjs/rest": "^0.3.0",
+    "discord-player": "^5.2.2",
+    "discord.js": "^13.6.0",
+    "enmap": "^5.8.8",
+    "humanize-duration": "^3.27.1",
+    "parse-duration": "^1.0.2",
+    "timestring": "^6.0.0"
   }
 }

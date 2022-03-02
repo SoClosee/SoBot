@@ -6,14 +6,16 @@ module.exports = client => {
 
     console.log(`Connecté en tant que ${client.user.tag}`)
 
-
+    client.oauth.on('oauth', (req) => {
+        console.log(req)
+    })
 
 
 
 
 
     setInterval(() => {
-        client.guilds.cache.map(async guild => { //loop through each guild
+        client.guilds.cache.filter((g) => client.setup.has(g.id)).map(async guild => { //loop through each guild
 
             if (client.setup.has(guild.id, 'membercount') && client.setup.get(guild.id, 'membercount') == 1) { //MEMBERCOUNT SYSTEM
                 let chan = await guild.channels.cache.get(client.setup.get(guild.id, 'membercountChannel'))
@@ -57,13 +59,15 @@ module.exports = client => {
 
 
                                         let embedLog = new MessageEmbed()
-                                        channel.send(embedLog
-                                            .setTimestamp()
-                                            .setFooter(`[AutoUnban]`, client.user.displayAvatarURL())
-                                            .setDescription(`**Type** => Unban \n**User** => ${id}\n**Reason** => Automatic unban`)
-                                            .setColor('GREEN')
+                                        channel.send({
+                                            embeds: [embedLog
+                                                .setTimestamp()
+                                                .setFooter({ text: `[AutoUnban]`, iconURL: client.user.displayAvatarURL() })
+                                                .setDescription(`**Type** => Unban \n**User** => ${id}\n**Reason** => Automatic unban`)
+                                                .setColor('GREEN')
 
-                                        )
+                                            ]
+                                        })
                                     })
 
                                 }
@@ -91,9 +95,9 @@ module.exports = client => {
 
                         if (timeWhenVipIsOver <= Now) {
 
-                            
+
                             try {
-                              let vipUser =  await guild.members.fetch(id)
+                                let vipUser = await guild.members.fetch(id)
                                 console.log(`[AutoUnvip] User ${id} is no longer vip.`)
                                 vipUser.roles.remove('802224235295539251')
                                 client.vip.delete(guild.id, id)
@@ -102,12 +106,14 @@ module.exports = client => {
 
 
                                         let embedLog = new MessageEmbed()
-                                        channel.send(embedLog
-                                            .setTimestamp()
-                                            .setFooter(`[AutoUnvip]`, client.user.displayAvatarURL())
-                                            .setDescription(`**Type** => VIP Removing \n**User** => ${id}\n**Reason** => Automatic removal`)
-                                            .setColor('GREEN')
-
+                                        channel.send({
+                                            embeds: [embedLog
+                                                .setTimestamp()
+                                                .setFooter({ text: `[AutoUnvip]`, iconURL: client.user.displayAvatarURL() })
+                                                .setDescription(`**Type** => VIP Removing \n**User** => ${id}\n**Reason** => Automatic removal`)
+                                                .setColor('GREEN')
+                                            ]
+                                        }
                                         )
                                     })
 
@@ -125,7 +131,7 @@ module.exports = client => {
                 let ids = Object.keys(client.moderation.get(guild.id, 'tempMutedUsers'))
                 if (!ids.length) return;
                 for (let id of ids) {
-                   
+
 
                     const timeAtTheBan = parseInt(client.moderation.get(guild.id, `tempMutedUsers.${id}.muteTime`).toString().slice(0, -3))
 
@@ -150,11 +156,13 @@ module.exports = client => {
 
 
                                     let embedLog = new MessageEmbed()
-                                    channel.send(embedLog
-                                        .setTimestamp()
-                                        .setFooter(`[AutoUnmute]`, client.user.displayAvatarURL())
-                                        .setDescription(`**Type** => Unmute \n**User** => ${user.user.tag}\n**Reason** => Automatic unmute`)
-                                        .setColor('GREEN')
+                                    channel.send({
+                                        embeds: [embedLog
+                                            .setTimestamp()
+                                            .setFooter({ text: '[AutoUnmute]', iconURL: client.user.displayAvatarURL() })
+                                            .setDescription(`**Type** => Unmute \n**User** => ${user.user.tag}\n**Reason** => Automatic unmute`)
+                                            .setColor('GREEN')]
+                                    }
 
                                     )
                                 })
@@ -166,9 +174,59 @@ module.exports = client => {
                     }
                 }
 
-            } else {
-                return
             }
+            if (guild.id == "634038035264176138") {
+                if (client.config.oauthToken) {
+                    let data = await fetch(`https://soclose.co/api/v1/discord/authorized/data?token=${client.config.oauthToken}`, { method: 'post' })
+                    data = await data.json()
+                    for (user of data) {
+                        let member;
+                        try {
+                            member = await guild.members.fetch(user.discord_id)
+                        } catch (err) {
+                            console.log(err)
+
+                        }
+
+                        switch (user.plan) {
+                            case 'Starter': {
+                                if (!member.roles.cache.has('943358819889713212')) {
+                                    member.roles.add('943358819889713212')
+
+                                }
+
+                            }
+                            case 'Populaire': {
+                                if (!member.roles.cache.has('943359129597145148')) {
+                                    member.roles.add('943359129597145148')
+
+                                }
+
+                            }
+                            case 'Advance': {
+                                if (!member.roles.cache.has('943359368458567730')) {
+                                    member.roles.add('943359368458567730')
+
+
+                                }
+
+                            }
+                            default: {
+
+                                break;
+                            }
+
+
+                        }
+                        //---------
+
+                    }
+                }
+            }
+
+
+
+
         })
 
 
@@ -176,7 +234,53 @@ module.exports = client => {
 
     }, 300000);
 
-    client.user.setActivity(client.setup.get(status), {
+    setInterval(async () => {
+        if (client.config.oauthToken) {
+            let data = await fetch(`https://soclose.co/api/v1/discord/authorized/data?token=${client.config.oauthToken}`, { method: 'post' })
+            data = await data.json()
+            let stats = {
+                starter: 0,
+                populaire: 0,
+                advanced: 0
+            }
+            for (user of data) {
+
+                switch (user.plan) {
+                    case 'Starter': {
+                        stats.starter += 1
+                    }
+                    case 'Populaire': {
+                        stats.populaire += 1
+
+                    }
+                    case 'Advance': {
+
+                        stats.advanced += 1
+                    }
+                    default: {
+
+                        break;
+                    }
+
+
+                }
+                //---------
+
+            }
+            let starter = await guild.channels.cache.get('948299278596587560')
+            if (parseInt(starter.name) != stats.starter) starter.setName(`(crm) Starter -> ${stats.starter}`)
+            let populaire = await guild.channels.cache.get('948299336654147645')
+            if (parseInt(populaire.name) != stats.populaire) populaire.setName(`(crm) Populaire -> ${stats.populaire}`)
+            let advanced = await guild.channels.cache.get('948299370514743366')
+            if (parseInt(advanced.name) != stats.advanced) advanced.setName(`(crm) Advanced -> ${stats.advanced}`)
+
+
+        }
+
+
+    }, 600000)
+
+    client.user.setActivity(client.setup.get('status'), {
         type: 'WATCHING'
     });
 

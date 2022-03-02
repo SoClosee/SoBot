@@ -4,7 +4,7 @@ module.exports = async (client, reaction, user) => {
       
         reaction.fetch()
             .then(async reaction => {
-                if (!reaction.message.guild.me.hasPermission('MANAGE_ROLES')) return;
+                if (!reaction.message.guild.me.permissions.has('MANAGE_ROLES')) return;
                 
                 let gID = reaction.message.guild.id
                 if (client.setup.has(gID, 'reactionrole')) {
@@ -55,7 +55,7 @@ module.exports = async (client, reaction, user) => {
                 console.log('Something went wrong when fetching the message: ', error);
             });
     } else {
-        if (!reaction.message.guild.me.hasPermission('MANAGE_ROLES')) return;
+        if (!reaction.message.guild.me.permissions.has('MANAGE_ROLES')) return;
                
                 let gID = reaction.message.guild.id
                 if (client.setup.has(gID, 'reactionrole')) {

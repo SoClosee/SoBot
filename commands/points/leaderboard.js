@@ -12,7 +12,7 @@ module.exports = {
     const top10 = sorted.splice(0, 10);
     const embed = new MessageEmbed()
       .setTitle("🏆 Leaderboard 🏆")
-      .setAuthor(client.user.username, message.guild.iconURL())
+      .setAuthor({ name: client.user.username, iconURL: message.guild.iconURL() })
       .setDescription(" Top10 most active members")
       .setColor('ORANGE');
     for (const data of top10) {
@@ -23,7 +23,8 @@ module.exports = {
       }
     }
     return message.channel.send({
-      embed
+      embeds: [
+        embed]
     });
   }
 }

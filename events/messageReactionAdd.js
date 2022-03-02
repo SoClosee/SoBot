@@ -10,7 +10,7 @@ module.exports = async (client, reaction, user) => {
                 console.log('Something went wrong when fetching the message: ', error);
             });
     }
-    if (reaction.message.guild.me.hasPermission('MANAGE_ROLES')) {
+    if (reaction.message.guild.me.permissions.has('MANAGE_ROLES')) {
 
     
     let gID = reaction.message.guild.id
@@ -55,7 +55,7 @@ module.exports = async (client, reaction, user) => {
             }
         }
     }
-    }else  if (!reaction.message.guild.me.hasPermission('MANAGE_ROLES')) return;
+    }else  if (!reaction.message.guild.me.permissions.has('MANAGE_ROLES')) return;
     
     let gID = reaction.message.guild.id
     if (client.setup.has(gID, 'reactionrole')) {

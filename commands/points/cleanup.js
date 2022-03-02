@@ -3,6 +3,7 @@ const { cooldown } = require('../../config.json')
 module.exports = {
     name: 'cleanup',
     async execute(message, args, client) {
+      if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply({content:"You don't have enough permissions (ADMINISTRATOR)!"});
         const filtered = client.points.filter( p => p.guild === message.guild.id );
 
 
@@ -15,7 +16,7 @@ module.exports = {
       client.points.delete(`${message.guild.id}-${data.user}`);
     });
 
-        message.channel.send(`I cleaned ${toRemove.size} old users's pockets.`);
+        message.channel.send({content:`I cleaned ${toRemove.size} old users's pockets.`});
     }
 }
 

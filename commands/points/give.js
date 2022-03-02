@@ -3,14 +3,14 @@ module.exports = {
     name: 'give',
     async execute(message, args, client) {
   // Limited to guild owner - adjust to your own preference!
-  if(!message.member.hasPermission('ADMINISTRATOR')) return message.reply("You don't have enough permissions (ADMINISTRATOR)!");
+  if(!message.member.permissions.has('ADMINISTRATOR')) return message.reply({content:"You don't have enough permissions (ADMINISTRATOR)!"});
 
   const user = message.mentions.users.first() || client.users.cache.get(args[0]);
-  if(!user) return message.reply("You need to mention someone, or to give their ID.");
+  if(!user) return message.reply({content:"You need to mention someone, or to give their ID."});
 
   const pointsToAdd = parseInt(args[1], 10);
-  if(!pointsToAdd) return message.reply("You didn't give me an xp amount to add.");
-  if(pointsToAdd <= 0) return message.reply('You can\'t add a negative amount of xp or equal to 0, use \`setxp\`')
+  if(!pointsToAdd) return message.reply({content:"You didn't give me an xp amount to add."});
+  if(pointsToAdd <= 0) return message.reply({content:'You can\'t add a negative amount of xp or equal to 0, use \`setxp\`'})
   
   const key = `${message.guild.id}-${user.id}`;
 
@@ -29,7 +29,7 @@ module.exports = {
   let data = client.points.get(key)
   client.points.set(key, {...data, level: curLevel})
 
-  message.channel.send(`${user.tag} received ${pointsToAdd} points and now possess ${client.points.get(key, "points")} points.`);
+  message.channel.send({content:`${user.tag} received ${pointsToAdd} points and now possess ${client.points.get(key, "points")} points.`});
 
         }
     }

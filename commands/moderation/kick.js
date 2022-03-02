@@ -12,17 +12,17 @@ module.exports = {
     description: "Ban un utilisateur de façon définitive (!ban user raison)",
     cooldown: cooldown,
     async execute(message, args, client) {
-        if (message.member.hasPermission('BAN_MEMBERS') || message.author.id === '480692379913945099') {
+        if (message.member.permissions.has('BAN_MEMBERS') || message.author.id === '480692379913945099') {
             let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
             let argsCheck = args
-            if(!message.guild.me.hasPermission('KICK_MEMBERS')) return message.channel.send('❌ Missing permisisons ( KICK_MEMBERS )')
+            if(!message.guild.me.permissions.has('KICK_MEMBERS')) return message.channel.send({content:'❌ Missing permisisons ( KICK_MEMBERS )'})
             if (!user) {
-                message.channel.send(client.embedMention)
+                message.channel.send({embeds: [client.embedMention]})
                 return;
 
             }
             if (!argsCheck[1]) {
-                message.channel.send(client.embedReason)
+                message.channel.send({embeds: [client.embedReason]})
                 return;
             }
             let kReason = argsCheck.slice(1).join(' ')
@@ -50,13 +50,13 @@ module.exports = {
 
                 }
                 await user.kick(kReason + '  [bot]')
-                await message.channel.send(`User kicked with the reason: ${kReason}`)
+                await message.channel.send({content:`User kicked with the reason: ${kReason}`})
 
             } else {
-                message.channel.send('❌ Kick failed, check the position of my role.')
+                message.channel.send({content:'❌ Kick failed, check the position of my role.'})
             }
 
-        } else message.channel.send(client.embedPerm)
+        } else message.channel.send({embeds: [client.embedPerm]})
     }
 }
 //const d = new Date( timestamp)

@@ -1,7 +1,10 @@
 {
-    "token": "", 
+    "token": "NzM4NDMzMDU3MTYxNDc4MTY2.XyL1YA.jUDGHQJ4d6HaB5AiJIdGvnfKeWc", 
     "cooldown": "3", 
-    "bot_name": "SoClose" 
+    "bot_name": "SoClose",
+    "oauthToken": "XJGVlw0FlZN2gSCJvVJ39vWGxfajOQmEsYyj7M12yMQBeBcHgCmv9BKSZlAf",
+    "buyChan": "828663776227229757",
+    "sellChan": "828663776227229757"
 
     }
     

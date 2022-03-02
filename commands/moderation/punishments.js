@@ -9,24 +9,24 @@ module.exports = {
     description: "Affiche toutes les sanctions d'un utilisateur (!punishments user)",
     cooldown: cooldown,
     async execute(message, args, client) {
-        let embed = new MessageEmbed().setFooter(`${client.config.bot_name} • Executed by ${message.author.username}`).setTimestamp();
-        if (message.member.hasPermission('KICK_MEMBERS') || message.author.id === '480692379913945099') {
+        let embed = new MessageEmbed().setFooter({text:`${client.config.bot_name} • Executed by ${message.author.username}`}).setTimestamp();
+        if (message.member.permissions.has('KICK_MEMBERS') || message.author.id === '480692379913945099') {
             let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-            embedNoPunishments = new MessageEmbed().setTitle('No sanctions').setColor('ff0000').setFooter(`${client.config.bot_name} • Executed by ${message.author.tag}`);
+            embedNoPunishments = new MessageEmbed().setTitle('No sanctions').setColor('ff0000').setFooter({text:`${client.config.bot_name} • Executed by ${message.author.tag}`});
             if (!user) {
-                message.channel.send(client.embedMention)
+                message.channel.send({embeds: [client.embedMention]})
                 return;
             }
             try {
                 await client.moderation.has(message.guild.id, `punishments.${user.id}`)
             } catch {
 
-                return message.channel.send(embedNoPunishments);
+                return message.channel.send({embeds: [embedNoPunishments]});
             }
             let numberOfInfractions = []
             let InfractionsArray = [];
             if (!client.moderation.has(message.guild.id, `punishments.${user.id}`)) {
-                return message.channel.send(embedNoPunishments);
+                return message.channel.send({embeds: [embedNoPunishments]});
             } else {
 
                 await client.getPunishment(message.guild.id, user.id, InfractionsArray, numberOfInfractions)
@@ -44,11 +44,11 @@ module.exports = {
 
             }
 
-            await message.channel.send(embed.setColor('ORANGE').setAuthor(`${user.displayName}       List of sanctions`, user.user.avatarURL()))
+            await message.channel.send({embeds: [embed.setColor('ORANGE').setAuthor({name:`${user.displayName}       List of sanctions`,iconURL: user.user.avatarURL()})]})
 
 
         } else {
-            message.channel.send(client.embedPerm)
+            message.channel.send({embeds: [client.embedPerm]})
         }
     }
 }

@@ -12,16 +12,16 @@ module.exports = {
     description: "Ban un utilisateur de façon définitive (!ban user raison)",
     cooldown: cooldown,
     async execute(message, args, client) {
-        if (message.member.hasPermission('BAN_MEMBERS') || message.author.id === '480692379913945099') {
+        if (message.member.permissions.has('BAN_MEMBERS') || message.author.id === '480692379913945099') {
             let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
             let argsCheck = args
             if (!user) {
-                message.channel.send(client.embedMention)
+                message.channel.send({embeds: [client.embedMention]})
                 return;
 
             }
             if (!argsCheck[1]) {
-                message.channel.send(client.embedReason)
+                message.channel.send({embeds: [client.embedReason]})
                 return;
             }
             let bReason = argsCheck.slice(1).join(' ')
@@ -33,11 +33,11 @@ module.exports = {
                 },
                 `bannedUsers.${user.id}`)
             if (user.bannable) {
-                await message.channel.send(embedbl
-                    .setTitle(`✅ User banned.`).setColor('ff0000'))
+                await message.channel.send({embeds: [embedbl
+                    .setTitle(`✅ User banned.`).setColor('ff0000')]})
 
                 try {
-                    await user.send(embedbl.addField(`You have been permanently banned from ${message.guild.name}`, '\u200b', true).addField(`\`reason:\` ${bReason}\``, `author:\` ${message.author.username}`, true))
+                    await user.send({embeds: [embedbl.addField(`You have been permanently banned from ${message.guild.name}`, '\u200b', true).addField(`\`reason:\` ${bReason}\``, `author:\` ${message.author.username}`, true)]})
                 } catch {}
                 console.log(`Banned ${user.displayName}: ${bReason}`)
                 client.addPunishment(message.guild.id, user.id, 'Ban', `${bReason}`, 'Permanent', `${message.author.username}`)
@@ -45,9 +45,9 @@ module.exports = {
                     client.channels.fetch(client.setup.get(message.guild.id, 'modlogChannelID')).then((channel) => {
                         let embedLog = new MessageEmbed()
                         channel.send(embedLog
-                            .setAuthor(`${message.author.tag}`, message.author.avatarURL())
+                            .setAuthor({name:`${message.author.tag}`,iconURL: message.author.avatarURL()})
                             .setTimestamp()
-                            .setFooter(`Sanction n°${client.setup.get(message.guild.id, 'Count')}`, client.user.displayAvatarURL())
+                            .setFooter({text:`Sanction n°${client.setup.get(message.guild.id, 'Count')}`,iconURL: client.user.displayAvatarURL()})
                             .setDescription(`**Type** => Permanent ban\n**User** => ${user.user.tag}\n**Reason** => ${bReason}`)
                             .setColor('ORANGE')
 
@@ -58,10 +58,10 @@ module.exports = {
                 await user.ban()
 
             } else {
-                message.channel.send(embed.setTitle('❌Ban failed, check my perms').setColor('ff0000'))
+                message.channel.send({embeds: [embed.setTitle('❌Ban failed, check my perms').setColor('ff0000')]})
             }
 
-        } else message.channel.send(client.embedPerm)
+        } else message.channel.send({embeds: [client.embedPerm]})
     }
 }
 //const d = new Date( timestamp)

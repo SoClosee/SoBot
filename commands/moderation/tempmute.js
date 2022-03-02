@@ -11,24 +11,24 @@ module.exports = {
     guildOnly: true,
     async execute(message, args, client) {
         // la commande commence ici
-        if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(client.embedPerm)
+        if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send({embeds: [client.embedPerm]})
 
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have enough permissions. Permission needed: \"MANAGE_ROLES\"')
+        if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.channel.send({content:'I don\'t have enough permissions. Permission needed: \"MANAGE_ROLES\"'})
 
         const member = await message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
-        if (!member) return message.channel.send('Please mention a member or provide the ID of this member.')
+        if (!member) return message.channel.send({content:'Please mention a member or provide the ID of this member.'})
 
-        if (member.id === message.guild.ownerID) return message.channel.send('You can\'t mute the server owner.')
+        if (member.id === message.guild.ownerID) return message.channel.send({content:'You can\'t mute the server owner.'})
 
         if (message.member.roles.highest.comparePositionTo(member.roles.highest) < 1 && message.author.id !== message.guild.ownerID)
-            return message.channel.send('You can\'t mute this member (his role is higher)')
-        if (!member.manageable) return message.channel.send('I can\'t mute this member, please check my perms.')
+            return message.channel.send({content:'You can\'t mute this member (his role is higher)'})
+        if (!member.manageable) return message.channel.send({content:'I can\'t mute this member, please check my perms.'})
 
         const duration = await parseDuration(args[1])
         const humanized = humanizeDuration(duration)
         console.log(duration + '           ' + humanized)
-        if (!duration) return message.channel.send('Please provide a valid duration')
+        if (!duration) return message.channel.send({content:'Please provide a valid duration'})
         const reason = args.slice(2).join(' ') || 'No reason.'
         let muteRole = message.guild.roles.cache.find(role => role.name === 'Muted')
 
@@ -40,7 +40,7 @@ module.exports = {
                 }
             })
             member.roles.add(muteRole)
-            message.channel.send(`\`${member.user.tag}\` has been temporarily muted by \`${message.author.tag}\`\nraison: ${reason}\nduration: ${humanizeDuration(duration)}`)
+            message.channel.send({content:`\`${member.user.tag}\` has been temporarily muted by \`${message.author.tag}\`\nraison: ${reason}\nduration: ${humanizeDuration(duration)}`})
             client.addPunishment(message.guild.id, member.id, 'Mute', `${reason}`, `Temp (${humanized})`, `${message.author.username}`)
 
             await client.moderation.set(`${message.guild.id}`, {
@@ -57,9 +57,9 @@ module.exports = {
                 client.channels.fetch(client.setup.get(message.guild.id, 'modlogChannelID')).then((channel) => {
                     let embedLog = new MessageEmbed()
                     channel.send(embedLog
-                        .setAuthor(`${message.author.tag}`, message.author.avatarURL())
+                        .setAuthor({name:`${message.author.tag}`,iconURL: message.author.avatarURL()})
                         .setTimestamp()
-                        .setFooter(`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`, client.user.displayAvatarURL())
+                        .setFooter({text:`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`,iconURL: client.user.displayAvatarURL()})
                         .setDescription(`**Type** => Temp mute (${humanized})\n**User** => ${member.user.tag}\n**Reason** => ${reason}`)
                         .setColor('ORANGE')
 
@@ -68,9 +68,9 @@ module.exports = {
 
             }
         } else {
-            if (member.roles.cache.some(role => role.name == 'Muted')) return message.channel.send('This member already possess the Muted role.')
+            if (member.roles.cache.some(role => role.name == 'Muted')) return message.channel.send({content:'This member already possess the Muted role.'})
             member.roles.add(muteRole)
-            message.channel.send(`\`${member.user.tag}\` has been temporarily muted by \`${message.author.tag}\`\nraison: ${reason}\nduration: ${humanizeDuration(duration)}`)
+            message.channel.send({content:`\`${member.user.tag}\` has been temporarily muted by \`${message.author.tag}\`\nraison: ${reason}\nduration: ${humanizeDuration(duration)}`})
             client.addPunishment(message.guild.id, member.id, 'Mute', `${reason}`, `Temp (${humanized})`, `${message.author.username}`)
 
             await client.moderation.set(`${message.guild.id}`, {
@@ -87,9 +87,9 @@ module.exports = {
                 client.channels.fetch(client.setup.get(message.guild.id, 'modlogChannelID')).then((channel) => {
                     let embedLog = new MessageEmbed()
                     channel.send(embedLog
-                        .setAuthor(`${message.author.tag}`, message.author.avatarURL())
+                        .setAuthor({name:`${message.author.tag}`,iconURL: message.author.avatarURL()})
                         .setTimestamp()
-                        .setFooter(`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`, client.user.displayAvatarURL())
+                        .setFooter({text:`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`,iconURL: client.user.displayAvatarURL()})
                         .setDescription(`**Type** => Temp mute (${humanized})\n**User** => ${member.user.tag}\n**Reason** => ${reason}`)
                         .setColor('ORANGE')
 

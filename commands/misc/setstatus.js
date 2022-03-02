@@ -8,7 +8,7 @@ module.exports = {
          type: 'WATCHING'
      });
 
-message.channel.send(' I successfully updated the status ! ');
+message.channel.send({content:' I successfully updated the status ! '});
       
 
     }

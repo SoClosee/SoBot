@@ -5,18 +5,18 @@ module.exports = {
     name: 'warn',
     description: "Avertis un utilisateur (requiert la permission KICK_MEMBERS)",
     async execute(message, args, client) {
-        if (message.member.hasPermission('KICK_MEMBERS') || message.author.id === '480692379913945099') {
+        if (message.member.permissions.has('KICK_MEMBERS') || message.author.id === '480692379913945099') {
           
             let embed = new MessageEmbed()
             let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
             let argsCheck = args
             if (!user) {
-                message.channel.send(client.embedMention)
+                message.channel.send({embeds: [client.embedMention]})
                 return;
 
             }
             if (!argsCheck[1]) {
-                message.channel.send(client.embedReason)
+                message.channel.send({embeds: [client.embedReason]})
                 return;
             }
             let wReason = argsCheck.slice(1).join(' ')
@@ -29,16 +29,16 @@ module.exports = {
                 }
                     , `warnedUsers.${user.id}`)
 
-                    await message.channel.send("Warned user with reason: " + wReason +'.')
+                    await message.channel.send({content:"Warned user with reason: " + wReason +'.'})
                 console.log(`Warned ${user.displayName}: ${wReason}`)
                 client.addPunishment(message.guild.id, user.id, 'Warning', `${wReason}`, 'Permanent', `${message.author.username}`)
                 if (client.setup.has(message.guild.id) && client.setup.has(message.guild.id, 'modlogChannelID')) {
                     client.channels.fetch(client.setup.get(message.guild.id, 'modlogChannelID')).then((channel) => {
                         let embedLog = new MessageEmbed()
                         channel.send(embedLog
-                            .setAuthor(`${message.author.tag}`, message.author.avatarURL())
+                            .setAuthor({name:`${message.author.tag}`,iconURL: message.author.avatarURL()})
                             .setTimestamp()
-                            .setFooter(`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`, client.user.displayAvatarURL())
+                            .setFooter({text:`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`,iconURL: client.user.displayAvatarURL()})
                             .setDescription(`**Type** => Warning\n**User** => ${user.user.tag}\n**Reason** => ${wReason}`)
                             .setColor('ORANGE')
 
@@ -64,16 +64,16 @@ module.exports = {
 
                 }
 
-                await message.channel.send("Warned user with reason: " + wReason +'.')
+                await message.channel.send({content:"Warned user with reason: " + wReason +'.'})
                 console.log(`Warned ${user.displayName}: ${wReason}`)
                 client.addPunishment(message.guild.id, user.id, 'Warning', `${wReason}`, 'Permanent', `${message.author.username}`)
                 if (client.setup.has(message.guild.id) && client.setup.has(message.guild.id, 'modlogChannelID')) {
                     client.channels.fetch(client.setup.get(message.guild.id, 'modlogChannelID')).then((channel) => {
                         let embedLog = new MessageEmbed()
                         channel.send(embedLog
-                            .setAuthor(`${message.author.tag}`, message.author.avatarURL())
+                            .setAuthor({name:`${message.author.tag}`,iconURL: message.author.avatarURL()})
                             .setTimestamp()
-                            .setFooter(`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`, client.user.displayAvatarURL())
+                            .setFooter({text:`Sanction n°${client.moderation.get(message.guild.id, 'Count')}`,iconURL: client.user.displayAvatarURL()})
                             .setDescription(`**Type** => Warning\n**User** => ${user.user.tag}\n**Reason** => ${wReason}`)
                             .setColor('ORANGE')
 
@@ -85,7 +85,7 @@ module.exports = {
                
             }
         } else {
-            message.channel.send(client.embedPerm)
+            message.channel.send({embeds: [client.embedPerm]})
         }
     }
 }
