@@ -1,7 +1,7 @@
 const {
     MessageEmbed
 } = require('discord.js')
-
+const fetch = require('node-fetch')
 module.exports = client => {
 
     console.log(`Connecté en tant que ${client.user.tag}`)
@@ -233,9 +233,9 @@ module.exports = client => {
 
 
     }, 300000);
-
-    setInterval(async () => {
+setInterval(async () => {
         if (client.config.oauthToken) {
+			let guild = client.guilds.cache.get('634038035264176138')
             let data = await fetch(`https://soclose.co/api/v1/discord/authorized/data?token=${client.config.oauthToken}`, { method: 'post' })
             data = await data.json()
             let stats = {
@@ -279,6 +279,7 @@ module.exports = client => {
 
 
     }, 600000)
+    
 
     client.user.setActivity(client.setup.get('status'), {
         type: 'WATCHING'
