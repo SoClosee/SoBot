@@ -156,7 +156,7 @@ const rest = new REST({ version: '9' }).setToken(config.token);
 		console.log('Started refreshing application (/) commands.');
 
 		await rest.put(
-			Routes.applicationGuildCommands('738433057161478166','821132966377291807'),
+			Routes.applicationGuildCommands('799015338527817758','634038035264176138'),
 			{ body: slashCommands },
 		);
 
