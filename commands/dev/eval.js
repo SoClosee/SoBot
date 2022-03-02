@@ -12,9 +12,9 @@ module.exports = {
             else
                 return text;
         }
-
+const code = args.join(" ");
         try {
-            const code = args.join(" ");
+            
             let evaled = eval(code);
 
             if (typeof evaled !== "string")

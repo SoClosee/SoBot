@@ -185,7 +185,7 @@ module.exports = client => {
                             member = await guild.members.fetch(user.discord_id)
                         } catch (err) {
                             console.log(err)
-
+							continue;
                         }
 
                         switch (user.plan) {
