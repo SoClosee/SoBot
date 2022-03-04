@@ -44,12 +44,12 @@ module.exports = {
                     new MessageActionRow().setComponents([new MessageButton().setURL(data.link).setLabel('Click!').setStyle('LINK')])
                 ]
             }) : client.channels.cache.get(client.config.sellChan).send({ embeds: [embed] })
-            submit.reply('Your message has been posted',{ephemeral: true});
+            submit.reply({content: 'Your message has been posted', ephemeral: true});
             return;
         }
         catch (err) {
             console.log(err)
-            interaction.followUp('Timeout / Problem occured',{ephemeral: true})
+            interaction.followUp({content:'Timeout / Problem occured',ephemeral: true})
         }
 
 
