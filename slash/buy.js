@@ -41,12 +41,12 @@ module.exports = {
                 ]);
             if (data.link && !data.link.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)) return submit.reply('Please enter a valid url (http /https / discord)')
 
-            data.link ? client.channels.cache.get(client.config.buyChan).send({
+            data.link ? await client.channels.cache.get(client.config.buyChan).send({
                 embeds: [embed],
                 components: [
                     new MessageActionRow().setComponents([new MessageButton().setURL(data.link).setLabel('Click!').setStyle('LINK')])
                 ]
-            }) : client.channels.cache.get(client.config.buyChan).send({ embeds: [embed] })
+            }) : await client.channels.cache.get(client.config.buyChan).send({ embeds: [embed] })
 
             submit.reply('Your message has been posted',{ephemeral: true});
             return;
