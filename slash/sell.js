@@ -37,7 +37,7 @@ module.exports = {
                     { name: 'Payment Methods', value: data.payment, inline: true }
 
                 ])
-            if (data.link && !data.link.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)) return submit.reply('Please enter a valid url (http /https / discord)')
+            if (data.link && !data.link.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)) return submit.reply({content: 'Please enter a valid url (http / https / discord)', ephemeral: true})
             data.link ? client.channels.cache.get(client.config.sellChan).send({
                 embeds: [embed],
                 components: [
