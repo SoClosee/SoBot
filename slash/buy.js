@@ -48,7 +48,7 @@ module.exports = {
                 ]
             }) : client.channels.cache.get(client.config.buyChan).send({ embeds: [embed] })
 
-            submit.reply('Your message has been posted');
+            submit.reply('Your message has been posted',{ephemeral: true);
             return;
         }
         catch (err) {
