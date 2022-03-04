@@ -53,7 +53,7 @@ module.exports = {
         }
         catch (err) {
             console.log(err)
-            interaction.followUp('Timeout / Problem occured', {ephemeral: true})
+            interaction.followUp({content: 'Timeout / Problem occured', ephemeral: true})
         }
 
 
