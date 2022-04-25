@@ -132,7 +132,7 @@ module.exports = {
                         errors: ['time']
                     }).then(jrmessage => {
 
-if(jrmessage.content.includes('remove')){
+if(jrmessage.first().content.includes('remove')){
                             if(client.setup.has(keyOwner, 'joinrolename')){
                                 client.setup.delete(keyOwner, 'joinrolename')
                                 client.setup.delete(keyOwner, 'joinroleID')
