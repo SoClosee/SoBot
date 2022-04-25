@@ -137,7 +137,14 @@ module.exports = {
                         if (!role) return message.channel.send({embeds:[embed.setTitle('❌ **You must specify a role **name | ID**, restart the setup').setColor('ff0000')]})
 
 
-
+ if(jrmessage.content.includes('remove')){
+                            if(client.setup.has(keyOwner, 'joinrolename')){
+                                client.setup.delete(keyOwner, 'joinrolename')
+                                client.setup.delete(keyOwner, 'joinroleID')
+                                message.channel.send({content:'Successfully removed joinrole!'})
+                            }
+                            else return message.channel.send({content:'No joinrole has been set.'})
+                        }
                         const data = client.setup.get(keyOwner);
                         client.setup.set(keyOwner, {
                             ...data,
