@@ -320,7 +320,7 @@ module.exports = {
                         }
                     })
                 }
-            })
+            }).catch(err => console.log(err))
         } else {
             message.channel.send({embeds:[client.embedPerm]})
         }
