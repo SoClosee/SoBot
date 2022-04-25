@@ -234,7 +234,7 @@ if(jrmessage.first().content.includes('remove')){
 
                                             let time = Date.now()
                                             if (client.setup.has(keyOwner, `reactionrole.${rMessage}`))
-                                                return client.setup.set(keyOwner, {
+                                                 client.setup.set(keyOwner, {
                                                     channel: channel.id,
                                                     message: rMessage,
                                                     role: role.id,
