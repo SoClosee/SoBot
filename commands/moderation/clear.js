@@ -12,8 +12,8 @@ module.exports = {
                let limit = parseInt(numberOfMessages)
             await   message.channel.messages.fetch({limit: limit}).then((async messages=>{
                   await messages.map((totalMessage) => {
-                      toIncrement =  toIncrement++
-                    totalMessage.delete({timeout: 2300}) 
+                      toIncrement++
+                    await totalMessage.delete({timeout: 2300}) 
                    })
                  
                
