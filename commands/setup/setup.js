@@ -171,7 +171,7 @@ if(jrmessage.first().content.includes('remove')){
                             message.channel.send({embeds:[embed.setTitle('❌ **You must specify a role **name | ID**, restart the setup').setColor('ff0000')]})
                             return;
                         }
-                        message.channel.send(new MessageEmbed().setTitle('Please now send a channel ID with your message inside.').setColor('00ff00'))
+                        message.channel.send({embeds:[new MessageEmbed().setTitle('Please now send a channel ID with your message inside.').setColor('00ff00')]})
 
                         message.channel.awaitMessages({filter,
                             max: 1,
@@ -181,7 +181,7 @@ if(jrmessage.first().content.includes('remove')){
                             let channel = await message.guild.channels.cache.get(reactionChannel.first().content)
 
                             if (channel == undefined) return message.channel.send({content:'Wrong ID provided.'})
-                            message.channel.send(new MessageEmbed().setTitle('Please now send a message ID in the channel you provided.').setColor('00ff00'))
+                            message.channel.send({embeds:[new MessageEmbed().setTitle('Please now send a message ID in the channel you provided.').setColor('00ff00')]})
 
                             message.channel.awaitMessages({filter,
                                 max: 1,
@@ -201,7 +201,7 @@ if(jrmessage.first().content.includes('remove')){
                                     return message.channel.send({content:'Wrong message ID provided'})
 
 
-                                let awaitReaction = await message.channel.send(new MessageEmbed().setTitle('Please now react with an emoji.').setColor('00ff00'))
+                                let awaitReaction = await message.channel.send({embeds:[new MessageEmbed().setTitle('Please now react with an emoji.').setColor('00ff00')]})
                                 let filter1 = (reaction, user) => user.id === message.author.id;
                                 awaitReaction.awaitReactions({filter1,
                                         max: 1,
@@ -251,7 +251,7 @@ if(jrmessage.first().content.includes('remove')){
 
 
                                         }
-                                        message.channel.send(new MessageEmbed().setTitle('Your reaction role system has been set up.').setColor('GREEN'))
+                                        message.channel.send({embeds:[new MessageEmbed().setTitle('Your reaction role system has been set up.').setColor('GREEN')]})
                                         await check.react(message.guild.emojis.cache.get(reactionName))
 
 
