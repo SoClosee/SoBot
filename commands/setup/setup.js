@@ -11,13 +11,13 @@ module.exports = {
                 .setFooter({text:`${client.config.bot_name} • Executed by ${message.author.username}`})
                 .setTimestamp()
             let setupEmbed = new MessageEmbed()
-            message.channel.send(
+            message.channel.send({embeds: [
                 setupEmbed
                 .setAuthor({name:`${message.member.displayName} • Systems list`,iconURL: message.author.avatarURL()})
                 .addField('Select a system to setup:', `\`📙 modlog\` => Set a channel for logging moderation actions\n\n\`👋 joinrole\` => Select a role to assign for every new members.\n\n\`🎭 reactionrole\` => Select a message, a role, and a reaction. A role will be added to every member who react.\n\n\`⚗️ xp\` => Choose to enable or not the point system.\n\n\`🏆 rankrole\` => Choose a list of roles that will be added each 5 level a user pass.\n\n\`⏲️ membercount\` => Choose weither to enable or disable the member count channel.\n\n\`✅ channels\` => Choose a list of channels where commands will be allowed (this blacklists every other channels + admins are not affected).`)
                 .setColor('2c2f33')
                 .setFooter({text:`${client.config.bot_name} • Executed by ${message.author.username}`})
-                .setTimestamp())
+                .setTimestamp()]})
 
             let filter = m => m.author.id === message.author.id
             message.channel.awaitMessages(filter, {
