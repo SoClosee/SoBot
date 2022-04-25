@@ -11,26 +11,26 @@ module.exports = {
                 .setFooter({text:`${client.config.bot_name} • Executed by ${message.author.username}`})
                 .setTimestamp()
             let setupEmbed = new MessageEmbed()
-            message.channel.send({embeds: [
+            message.channel.send({embeds:[
                 setupEmbed
                 .setAuthor({name:`${message.member.displayName} • Systems list`,iconURL: message.author.avatarURL()})
                 .addField('Select a system to setup:', `\`📙 modlog\` => Set a channel for logging moderation actions\n\n\`👋 joinrole\` => Select a role to assign for every new members.\n\n\`🎭 reactionrole\` => Select a message, a role, and a reaction. A role will be added to every member who react.\n\n\`⚗️ xp\` => Choose to enable or not the point system.\n\n\`🏆 rankrole\` => Choose a list of roles that will be added each 5 level a user pass.\n\n\`⏲️ membercount\` => Choose weither to enable or disable the member count channel.\n\n\`✅ channels\` => Choose a list of channels where commands will be allowed (this blacklists every other channels + admins are not affected).`)
                 .setColor('2c2f33')
                 .setFooter({text:`${client.config.bot_name} • Executed by ${message.author.username}`})
-                .setTimestamp()]})
-
+                .setTimestamp()]});
+                console.log('1')
             let filter = m => m.author.id === message.author.id
-            message.channel.awaitMessages(filter, {
+            message.channel.awaitMessages({filter,
                 max: 1,
-                time: 30000,
+                time: 30_000,
                 errors: ['time']
             }).then(collected => {
-
+                console.log('2')
                 if (collected.first().content === 'xp') {
                     message.channel.send('Please choose either to \`enable\` or to \`disable\` the points and levels system.')
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(answer => {
                         if (answer.first().content === 'enable') {
@@ -48,9 +48,9 @@ module.exports = {
                 }
                 if (collected.first().content === 'channels') {
                     message.channel.send({content:'Please enter a list of channels separated with a space. You can mention a channel, or provide it\'s id.'})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(async answer => {
                         let channels = await answer.first().content.split(' ')
@@ -87,9 +87,9 @@ module.exports = {
                 }
                 if (collected.first().content === 'rankrole') {
                     message.channel.send({content:'Please enter a list of roles separated with a space. You can mention a role, or mention it\'s id.'})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(async answer => {
                         let roles = await answer.first().content.split(' ')
@@ -126,20 +126,13 @@ module.exports = {
                 if (collected.first().content === 'joinrole') {
                     const keyOwner = message.guild.id
                     message.channel.send({embeds:[embed.setTitle("Please send a role name or ID.").setColor('00ff00')]})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(jrmessage => {
 
-                        if(jrmessage.content.includes('remove')){
-                            if(client.setup.has(keyOwner, 'joinrolename')){
-                                client.setup.delete(keyOwner, 'joinrolename')
-                                client.setup.delete(keyOwner, 'joinroleID')
-                                message.channel.send({content:'Successfully removed joinrole!'})
-                            }
-                            else return message.channel.send({content:'No joinrole has been set.'})
-                        }
+
                         let role = message.guild.roles.cache.find(r => r.name == jrmessage.first().content) || message.guild.roles.cache.get(args[0])
                         if (!role) return message.channel.send({embeds:[embed.setTitle('❌ **You must specify a role **name | ID**, restart the setup').setColor('ff0000')]})
 
@@ -159,9 +152,9 @@ module.exports = {
                 if (collected.first().content === 'reactionrole') {
                     const keyOwner = message.guild.id
                     message.channel.send({embeds:[embed.setTitle("Please send a role name or ID.").setColor('00ff00')]})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(async rRole => {
 
@@ -173,9 +166,9 @@ module.exports = {
                         }
                         message.channel.send(new MessageEmbed().setTitle('Please now send a channel ID with your message inside.').setColor('00ff00'))
 
-                        message.channel.awaitMessages(filter, {
+                        message.channel.awaitMessages({filter,
                             max: 1,
-                            time: 30000,
+                            time: 30_000,
                             errors: ['time']
                         }).then(async reactionChannel => {
                             let channel = await message.guild.channels.cache.get(reactionChannel.first().content)
@@ -183,9 +176,9 @@ module.exports = {
                             if (channel == undefined) return message.channel.send({content:'Wrong ID provided.'})
                             message.channel.send(new MessageEmbed().setTitle('Please now send a message ID in the channel you provided.').setColor('00ff00'))
 
-                            message.channel.awaitMessages(filter, {
+                            message.channel.awaitMessages({filter,
                                 max: 1,
-                                time: 30000,
+                                time: 30_000,
                                 errors: ['time']
                             }).then(async reactionMessage => {
                                 let rMessage = reactionMessage.first().content;
@@ -203,7 +196,7 @@ module.exports = {
 
                                 let awaitReaction = await message.channel.send(new MessageEmbed().setTitle('Please now react with an emoji.').setColor('00ff00'))
                                 let filter1 = (reaction, user) => user.id === message.author.id;
-                                awaitReaction.awaitReactions(filter1, {
+                                awaitReaction.awaitReactions({filter1,
                                         max: 1,
                                         time: 60000,
                                         errors: ['time']
@@ -267,9 +260,9 @@ module.exports = {
                 }
                 if (collected.first().content === 'membercount') {
                     message.channel.send({content:'Please choose either to \`enable\` or to \`disable\` the member count channel.'})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(async answer => {
                         if (answer.first().content === 'enable') {
@@ -300,9 +293,9 @@ module.exports = {
                 if (collected.first().content === 'modlog') {
                     let embed = new MessageEmbed().setTitle('Mention a channel, or specify it\'s ID').setColor('00ff00')
                     message.channel.send({embeds:[embed.setColor('00ff00')]})
-                    message.channel.awaitMessages(filter, {
+                    message.channel.awaitMessages({filter,
                         max: 1,
-                        time: 30000,
+                        time: 30_000,
                         errors: ['time']
                     }).then(modlogChannel => {
                         try {
@@ -320,7 +313,7 @@ module.exports = {
                         }
                     })
                 }
-            }).catch(err => console.log(err))
+            })
         } else {
             message.channel.send({embeds:[client.embedPerm]})
         }
