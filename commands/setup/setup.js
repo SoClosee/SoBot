@@ -132,7 +132,14 @@ module.exports = {
                         errors: ['time']
                     }).then(jrmessage => {
 
-
+                        if(jrmessage.content.includes('remove')){
+                            if(client.setup.has(keyOwner, 'joinrolename')){
+                                client.setup.delete(keyOwner, 'joinrolename')
+                                client.setup.delete(keyOwner, 'joinroleID')
+                                message.channel.send({content:'Successfully removed joinrole!'})
+                            }
+                            else return message.channel.send({content:'No joinrole has been set.'})
+                        }
                         let role = message.guild.roles.cache.find(r => r.name == jrmessage.first().content) || message.guild.roles.cache.get(args[0])
                         if (!role) return message.channel.send({embeds:[embed.setTitle('❌ **You must specify a role **name | ID**, restart the setup').setColor('ff0000')]})
 
