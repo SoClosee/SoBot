@@ -13,7 +13,7 @@ const Enmap = require('enmap')
 
 const client = new Client({
     
-    intents: ['GUILD_MESSAGES', 'GUILD_INTEGRATIONS', 'GUILDS', 'GUILD_MEMBERS','GUILD_VOICE_STATES'],
+    intents: ['GUILD_MESSAGES', 'GUILD_INTEGRATIONS', 'GUILDS', 'GUILD_MEMBERS','GUILD_VOICE_STATES','GUILD_MESSAGE_REACTIONS'],
     
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });

@@ -63,7 +63,9 @@ module.exports = async (client, reaction, user) => {
         if (client.setup.has(gID, `reactionrole.${reaction.message.id}`)) {
             
             stuff = await client.setup.get(gID, 'reactionrole.' + reaction.message.id)
+console.log(reaction)
             if (reaction.emoji.id) {
+
 
                 for (t in stuff) {
                     let emojidb = Object.values(client.setup.get(gID, `reactionrole.${reaction.message.id}.${t}`))

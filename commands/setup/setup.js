@@ -167,7 +167,8 @@ if(jrmessage.first().content.includes('remove')){
 
 
                         let role = message.guild.roles.cache.find(r => r.name == rRole.first().content) || message.guild.roles.cache.get(rRole.first().content)
-                        if (!role) {
+console.log(role)                       
+ if (!role) {
                             message.channel.send({embeds:[embed.setTitle('❌ **You must specify a role **name | ID**, restart the setup').setColor('ff0000')]})
                             return;
                         }
@@ -202,7 +203,11 @@ if(jrmessage.first().content.includes('remove')){
 
 
                                 let awaitReaction = await message.channel.send({embeds:[new MessageEmbed().setTitle('Please now react with an emoji.').setColor('00ff00')]})
-                                let filter1 = (reaction, user) => user.id === message.author.id;
+                                let filter1 = (reaction, user) =>{
+console.log(user)
+return  user.id === message.author.id;
+
+}
                                 awaitReaction.awaitReactions({filter1,
                                         max: 1,
                                         time: 60000,
@@ -210,7 +215,7 @@ if(jrmessage.first().content.includes('remove')){
                                     })
                                     .then(async collected => {
                                         const reaction = collected.first().emoji.name;
-
+console.log(reaction)
                                         let reactionName;
                                         if (collected.first().emoji.id) {
                                             const rID = collected.first().emoji.id
@@ -252,7 +257,7 @@ if(jrmessage.first().content.includes('remove')){
 
                                         }
                                         message.channel.send({embeds:[new MessageEmbed().setTitle('Your reaction role system has been set up.').setColor('GREEN')]})
-                                        await check.react(message.guild.emojis.cache.get(reactionName))
+                                        await check.react(collected.first().emoji)
 
 
                                     })
