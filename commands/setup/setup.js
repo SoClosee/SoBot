@@ -225,35 +225,38 @@ console.log(reaction)
                                             else reactionName = rID
 
                                         } else reactionName = reaction
-
+ let time = Date.now()
                                         if (client.setup.has(keyOwner, 'reactionrole')) {
-                                            client.setup.set(keyOwner, {
-                                                channel: channel.id,
-                                                message: rMessage,
-                                                role: role.id,
-                                                emoji: reactionName
-                                            }, `reactionrole.${rMessage}.${Date.now()}`)
-
-                                        }
-                                        if (!client.setup.has(keyOwner, 'reactionrole')) {
-
-                                            let time = Date.now()
-                                            if (client.setup.has(keyOwner, `reactionrole.${rMessage}`))
+                                            if (client.setup.has(keyOwner, `reactionrole.${rMessage}`)){
                                                  client.setup.set(keyOwner, {
                                                     channel: channel.id,
                                                     message: rMessage,
                                                     role: role.id,
                                                     emoji: reactionName
                                                 }, `reactionrole.${rMessage}.${time}`)
-
-                                            else
-                                                client.setup.set(keyOwner, {}, `reactionrole.${rMessage}`) && client.setup.set(keyOwner, {
+                                            }
+                                            else {
+                                                client.setup.set(keyOwner, {}, `reactionrole.${rMessage}`)
+                                                    client.setup.set(keyOwner, {
                                                     channel: channel.id,
                                                     message: rMessage,
                                                     role: role.id,
                                                     emoji: reactionName
                                                 }, `reactionrole.${rMessage}.${time}`)
+                                            }
 
+
+                                           
+                                        }
+                                        if (!client.setup.has(keyOwner, 'reactionrole')) {
+                                            client.setup.set(keyOwner, {}, `reactionrole`)
+                                           client.setup.set(keyOwner, {}, `reactionrole.${rMessage}`)
+                                                    client.setup.set(keyOwner, {
+                                                    channel: channel.id,
+                                                    message: rMessage,
+                                                    role: role.id,
+                                                    emoji: reactionName
+                                                }, `reactionrole.${rMessage}.${time}`)
 
                                         }
                                         message.channel.send({embeds:[new MessageEmbed().setTitle('Your reaction role system has been set up.').setColor('GREEN')]})
