@@ -39,12 +39,12 @@ module.exports = {
                 ])
             if (data.link && !data.link.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)) return submit.reply({content: 'Please enter a valid url (http / https / discord)', ephemeral: true})
             let chan = interaction.guild.id === "634038035264176138" ? client.config.sellChan : client.config.sellChan2;
-            data.link ? client.channels.cache.get(client.config.sellChan).send({
+            data.link ? client.channels.cache.get(chan).send({
                 embeds: [embed],
                 components: [
                     new MessageActionRow().setComponents([new MessageButton().setURL(data.link).setLabel('Click!').setStyle('LINK')])
                 ]
-            }) : client.channels.cache.get(client.config.sellChan).send({ embeds: [embed] })
+            }) : client.channels.cache.get(chan).send({ embeds: [embed] })
             submit.reply({content: 'Your message has been posted', ephemeral: true});
             return;
         }
